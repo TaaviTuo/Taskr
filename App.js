@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ScrollView, Dimensions } from 'react-native';
 
 const { width } = Dimensions.get('window');
 const { height } = Dimensions.get('window');
-
+//Tutki panresponder
 export default class App extends React.Component {
   render() {
     return (
