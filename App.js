@@ -5,6 +5,11 @@ const { width } = Dimensions.get('window');
 const { height } = Dimensions.get('window');
 //Tutki panresponder
 export default class App extends React.Component {
+
+  addCard() {
+
+    
+  }
   render() {
     return (
       <ScrollView 
