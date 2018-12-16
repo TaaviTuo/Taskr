@@ -1,102 +1,120 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, Dimensions, Button } from 'react-native';
-import StatusBarBackground from './StatusBarBackground';
-import DialogInput from 'react-native-dialog-input';
+import React, { Component } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Dimensions,
+  Button
+} from "react-native";
+import StatusBarBackground from "./StatusBarBackground";
+import BoardView from "./BoardView.js";
+import DialogInput from "react-native-dialog-input";
 
-const { width } = Dimensions.get('window');
-const { height } = Dimensions.get('window');
+const { width } = Dimensions.get("window");
+const { height } = Dimensions.get("window");
 //Tutki panresponder
 export default class App extends React.Component {
-
-  state = { cards: ["Testilappu"],
-           isDialogVisible: false 
-          };
+  state = {
+    backlogCards: ["Testilappu"],
+    inProgressCards: ["Vaiheessa"],
+    doneCards: ["Valmis!"],
+    isDialogVisible: false
+  };
 
   addCard = () => {
-
-    this.setState({isDialogVisible: true});
-  }
+    this.setState({ isDialogVisible: true });
+  };
   sendInput = inputText => {
-    temp = this.state.cards;
+    temp = this.state.backlogCards;
     temp.push(inputText);
-    this.setState({cards: temp, isDialogVisible: false});
-  }
+    this.setState({ backlogCards: temp, isDialogVisible: false });
+  };
   showDialog = show => {
-    this.setState({isDialogVisible: show});
-  }
+    this.setState({ isDialogVisible: show });
+  };
   render() {
     return (
       <View>
         <StatusBarBackground />
-        <ScrollView 
-        ref={(scrollView) => { this.scrollView = scrollView; }}
-        style={styles.container}
-        //pagingEnabled={true}
-        horizontal= {true}
-        decelerationRate={0}
-        snapToInterval={width / 1.45}
-        snapToAlignment={"center"}
-        contentInset={{
-          top: 0,
-          left: 30,
-          bottom: 0,
-          right: 30,
-        }}>
-        <View style={styles.view} >
-          <Button title="Add" onPress={this.addCard}/>
-          <DialogInput isDialogVisible={this.state.isDialogVisible}
-            title={"Task input"}
-            message={"Name task"}
-            hintInput ={"Enter title for task"}
-            submitInput={ (inputText) => {this.sendInput(inputText)} }
-            closeDialog={ () => {this.showDialog(false)}}>
-          </DialogInput>
-          { this.state.cards.map((item, key) => (
-            <View key={key} style={styles.card}>
-              <Text style={{textAlign: 'center'}}>{ item } </Text>
-            </View>
-          ))}
-        </View>
-        <View style={styles.view2} />
-        <View style={styles.view3} />
-      </ScrollView>
-    </View>
-      
+        <ScrollView
+          ref={scrollView => {
+            this.scrollView = scrollView;
+          }}
+          style={styles.container}
+          //pagingEnabled={true}
+          horizontal={true}
+          decelerationRate={0}
+          snapToInterval={width / 1.45}
+          snapToAlignment={"center"}
+          contentInset={{
+            top: 0,
+            left: 30,
+            bottom: 0,
+            right: 30
+          }}
+        >
+          <BoardView
+            boardStyle={[styles.backlog, styles.card]}
+            cards={this.state.backlogCards}
+            addCard={this.addCard}
+            isDialogVisible={this.state.isDialogVisible}
+            showDialog={this.showDialog}
+            sendInput={this.sendInput}
+          />
+          <BoardView
+            boardStyle={[styles.inProgress, styles.card]}
+            cards={this.state.inProgressCards}
+            addCard={this.addCard}
+            isDialogVisible={this.state.isDialogVisible}
+            showDialog={this.showDialog}
+            sendInput={this.sendInput}
+          />
+          <BoardView
+            boardStyle={[styles.done, styles.card]}
+            cards={this.state.doneCards}
+            addCard={this.addCard}
+            isDialogVisible={this.state.isDialogVisible}
+            showDialog={this.showDialog}
+            sendInput={this.sendInput}
+          />
+        </ScrollView>
+      </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
+const styles = {
   container: {},
-  view: {
-    backgroundColor: 'lightskyblue',
+  backlog: {
+    backgroundColor: "lightskyblue",
     width: width - 80,
     height: height,
     borderRadius: 10,
-    alignContent: 'center',
+    alignContent: "center"
     //paddingHorizontal : 30
   },
-  view2: {
-    backgroundColor: 'crimson',
+  inProgress: {
+    backgroundColor: "crimson",
     width: width - 80,
     height: height,
     borderRadius: 10,
-    alignContent: 'center',
+    alignContent: "center"
     //paddingHorizontal : 30
   },
-  view3: {
-    backgroundColor: 'limegreen',
+  done: {
+    backgroundColor: "limegreen",
     width: width - 80,
     height: height,
     borderRadius: 10,
-    alignContent: 'center',
+    alignContent: "center"
     //paddingHorizontal : 30
   },
   card: {
     margin: 10,
-    backgroundColor: 'lightgrey',
+    backgroundColor: "lightgrey",
     width: width - 100,
     height: 100,
-    alignContent: 'center'
+    alignContent: "center"
   }
-});
+};
