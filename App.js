@@ -33,6 +33,61 @@ export default class App extends React.Component {
   showDialog = show => {
     this.setState({ isDialogVisible: show });
   };
+  moveCard = (current, toMove) => {
+    if (current === this.state.backlogCards) {
+      let tempCurrent = this.state.backlogCards;
+      let tempNext = this.state.inProgressCards;
+      let index = tempCurrent.indexOf(toMove);
+      tempNext.push(current[index]);
+      if (index !== -1) {
+        tempCurrent.splice(index, 1);
+        this.setState({ backlogCards: tempCurrent });
+      }
+      this.setState({ inProgress: tempNext });
+    } else if (current === this.state.inProgressCards) {
+      let tempCurrent = this.state.inProgressCards;
+      let tempNext = this.state.doneCards;
+      let index = tempCurrent.indexOf(toMove);
+      tempNext.push(current[index]);
+      if (index !== -1) {
+        tempCurrent.splice(index, 1);
+        this.setState({ inProgressCards: tempCurrent });
+      }
+      this.setState({ doneCards: tempNext });
+    } else {
+      let tempCurrent = this.state.doneCards;
+      let index = tempCurrent.indexOf(toMove);
+      if (index !== -1) {
+        tempCurrent.splice(index, 1);
+        this.setState({ doneCards: tempCurrent });
+      }
+    }
+  };
+  removeCard = (current, toRemove) => {
+    console.log("Removing " + toRemove);
+    if (current === this.state.backlogCards) {
+      let tempCurrent = this.state.backlogCards;
+      let index = tempCurrent.indexOf(toRemove);
+      if (index !== -1) {
+        tempCurrent.splice(index, 1);
+        this.setState({ backlogCards: tempCurrent });
+      }
+    } else if (current === this.state.inProgressCards) {
+      let tempCurrent = this.state.inProgressCards;
+      let index = tempCurrent.indexOf(toRemove);
+      if (index !== -1) {
+        tempCurrent.splice(index, 1);
+        this.setState({ inProgressCards: tempCurrent });
+      }
+    } else {
+      let tempCurrent = this.state.doneCards;
+      let index = tempCurrent.indexOf(toRemove);
+      if (index !== -1) {
+        tempCurrent.splice(index, 1);
+        this.setState({ doneCards: tempCurrent });
+      }
+    }
+  };
   render() {
     return (
       <View>
@@ -61,6 +116,8 @@ export default class App extends React.Component {
             isDialogVisible={this.state.isDialogVisible}
             showDialog={this.showDialog}
             sendInput={this.sendInput}
+            moveCard={this.moveCard}
+            removeCard={this.removeCard}
           />
           <BoardView
             boardStyle={[styles.inProgress, styles.card]}
@@ -69,6 +126,8 @@ export default class App extends React.Component {
             isDialogVisible={this.state.isDialogVisible}
             showDialog={this.showDialog}
             sendInput={this.sendInput}
+            moveCard={this.moveCard}
+            removeCard={this.removeCard}
           />
           <BoardView
             boardStyle={[styles.done, styles.card]}
@@ -77,6 +136,8 @@ export default class App extends React.Component {
             isDialogVisible={this.state.isDialogVisible}
             showDialog={this.showDialog}
             sendInput={this.sendInput}
+            moveCard={this.moveCard}
+            removeCard={this.removeCard}
           />
         </ScrollView>
       </View>
