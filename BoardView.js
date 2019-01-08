@@ -11,7 +11,6 @@ import DialogInput from "react-native-dialog-input";
 
 class BoardView extends Component {
   state = {
-    cards: this.props.cards,
     isDialogVisible: this.props.isDialogVisible,
     toSend: ""
   };
@@ -25,11 +24,12 @@ class BoardView extends Component {
     this.props.showDialog(status);
   };
   moveCard = () => {
-    this.props.moveCard(this.state.cards, this.state.toSend);
+    this.props.moveCard(this.props.cards, this.state.toSend);
   };
   removeCard = () => {
     console.log("Remove " + this.state.toSend);
-    this.props.removeCard(this.state.cards, this.state.toSend);
+    const toSend = this.props.cards;
+    this.props.removeCard(toSend, this.state.toSend);
   };
   openCard = item => {
     this.setState({ toSend: item });
@@ -47,6 +47,22 @@ class BoardView extends Component {
       ],
       { cancelable: true }
     );
+  };
+  checkIfEmpty = () => {
+    if (this.props.cards.length) {
+      return this.props.cards.map((item, key) => (
+        <TouchableOpacity key={key} style={this.props.boardStyle[1]}>
+          <Text
+            style={{ textAlign: "center", height: 100 }}
+            onPress={() => this.openCard(item)}
+          >
+            {item}
+          </Text>
+        </TouchableOpacity>
+      ));
+    } else {
+      return <Text>No tasks yet</Text>;
+    }
   };
   render() {
     return (
@@ -66,16 +82,7 @@ class BoardView extends Component {
         >
           {" "}
         </DialogInput>
-        {this.state.cards.map((item, key) => (
-          <TouchableOpacity key={key} style={this.props.boardStyle[1]}>
-            <Text
-              style={{ textAlign: "center", height: 100 }}
-              onPress={() => this.openCard(item)}
-            >
-              {item}
-            </Text>
-          </TouchableOpacity>
-        ))}
+        {this.checkIfEmpty()}
       </ScrollView>
     );
   }
