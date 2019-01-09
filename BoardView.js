@@ -51,23 +51,48 @@ class BoardView extends Component {
   checkIfEmpty = () => {
     if (this.props.cards.length) {
       return this.props.cards.map((item, key) => (
-        <TouchableOpacity key={key} style={this.props.boardStyle[1]}>
-          <Text
-            style={{ textAlign: "center", height: 100 }}
-            onPress={() => this.openCard(item)}
-          >
+        <TouchableOpacity
+          key={key}
+          style={this.props.boardStyle[1]}
+          onPress={() => this.openCard(item)}
+        >
+          <Text style={styles.cardText} onPress={() => this.openCard(item)}>
             {item}
           </Text>
         </TouchableOpacity>
       ));
     } else {
-      return <Text>No tasks yet</Text>;
+      return <Text style={styles.noTasks}>No tasks yet</Text>;
     }
   };
+  checkTitle = () => {
+    if (this.props.title === "TO DO") {
+      return (
+        <TouchableOpacity
+          style={{
+            borderWidth: 1,
+            borderColor: "rgba(0,0,0,0.2)",
+            alignItems: "center",
+            justifyContent: "center",
+            width: 50,
+            height: 50,
+            backgroundColor: "whitesmoke",
+            borderRadius: 100
+          }}
+          onPress={this.addCard}
+        >
+          <Text style={{ fontSize: 30 }}>+</Text>
+        </TouchableOpacity>
+      );
+    } else {
+    }
+  };
+
   render() {
     return (
       <ScrollView style={this.props.boardStyle[0]} horizontal={false}>
-        <Button title="Add" onPress={() => this.addCard()} />
+        <Text style={styles.title}>{this.props.title}</Text>
+        {this.checkTitle()}
         <DialogInput
           isDialogVisible={this.props.isDialogVisible}
           title={"Task input"}
@@ -79,8 +104,11 @@ class BoardView extends Component {
           showDialog={() => {
             this.showDialog(false);
           }}
+          closeDialog={() => {
+            this.showDialog(false);
+          }}
         >
-          {" "}
+          >{" "}
         </DialogInput>
         {this.checkIfEmpty()}
       </ScrollView>
@@ -94,6 +122,23 @@ const styles = {
     width: 100,
     height: 100,
     alignContent: "center"
+  },
+  title: {
+    padding: 7,
+    backgroundColor: "whitesmoke",
+    flex: 1,
+    height: 40,
+    fontSize: 20,
+    textAlign: "center"
+  },
+  noTasks: {
+    color: "darkblue",
+    textAlign: "center",
+    fontSize: 20
+  },
+  cardText: {
+    fontSize: 30,
+    textAlign: "center"
   }
 };
 module.exports = BoardView;

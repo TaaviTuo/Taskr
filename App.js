@@ -5,7 +5,7 @@ import BoardView from "./BoardView.js";
 
 const { width } = Dimensions.get("window");
 const { height } = Dimensions.get("window");
-//Tutki panresponder
+
 export default class App extends React.Component {
   state = {
     backlogCards: [],
@@ -110,33 +110,33 @@ export default class App extends React.Component {
         ]);
       } else {
         console.log("Data: ", data);
-      }
-    });
-    AsyncStorage.getItem("backlog", (err, data) => {
-      console.log("get back");
-      if (data !== null) {
-        console.log("Set backlog " + data);
-        let backlog = data.split(",");
-        this.setState({ backlogCards: backlog });
-        console.log(this.state.backlogCards.toString());
-      }
-    });
-    AsyncStorage.getItem("inProgress", (err, data) => {
-      console.log("get progress");
-      if (data !== null) {
-        console.log("Set inProgress " + data);
-        let inProgress = data.split(",");
-        this.setState({ inProgressCards: inProgress });
-        console.log(this.state.inProgressCards.toString());
-      }
-    });
-    AsyncStorage.getItem("done", (err, data) => {
-      console.log("get done");
-      if (data !== null) {
-        console.log("Set done " + data);
-        let done = data.split(",");
-        this.setState({ doneCards: done });
-        console.log(this.state.doneCards.toString());
+        AsyncStorage.getItem("backlog", (err, data) => {
+          console.log("get back");
+          if (data !== null) {
+            console.log("Set backlog " + data);
+            let backlog = data.split(",");
+            this.setState({ backlogCards: backlog });
+            console.log(this.state.backlogCards.toString());
+          }
+        });
+        AsyncStorage.getItem("inProgress", (err, data) => {
+          console.log("get progress");
+          if (data !== null) {
+            console.log("Set inProgress " + data);
+            let inProgress = data.split(",");
+            this.setState({ inProgressCards: inProgress });
+            console.log(this.state.inProgressCards.toString());
+          }
+        });
+        AsyncStorage.getItem("done", (err, data) => {
+          console.log("get done");
+          if (data !== null) {
+            console.log("Set done " + data);
+            let done = data.split(",");
+            this.setState({ doneCards: done });
+            console.log(this.state.doneCards.toString());
+          }
+        });
       }
     });
   }
@@ -209,23 +209,26 @@ const styles = {
     backgroundColor: "lightskyblue",
     width: width - 80,
     height: height,
-    borderRadius: 10,
+    borderWidth: 0.5,
+    borderColor: "black",
     alignContent: "center"
     //paddingHorizontal : 30
   },
   inProgress: {
-    backgroundColor: "crimson",
+    backgroundColor: "lightskyblue",
     width: width - 80,
     height: height,
-    borderRadius: 10,
+    borderWidth: 0.5,
+    borderColor: "black",
     alignContent: "center"
     //paddingHorizontal : 30
   },
   done: {
-    backgroundColor: "limegreen",
+    backgroundColor: "lightskyblue",
     width: width - 80,
     height: height,
-    borderRadius: 10,
+    borderWidth: 0.5,
+    borderColor: "black",
     alignContent: "center"
     //paddingHorizontal : 30
   },
@@ -234,6 +237,7 @@ const styles = {
     backgroundColor: "lightgrey",
     width: width - 100,
     height: 100,
-    alignContent: "center"
+    justifyContent: "center",
+    alignItems: "center"
   }
 };
