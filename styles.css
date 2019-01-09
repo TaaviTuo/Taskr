@@ -1,0 +1,21 @@
+backlog {
+  backgroundcolor: "lightskyblue";
+  width: width - 80;
+  height: height;
+  borderradius: 10;
+  aligncontent: "center";
+}
+inProgress {
+  backgroundcolor: "crimson";
+  width: width - 80;
+  height: height;
+  borderradius: 10;
+  aligncontent: "center";
+}
+done {
+  backgroundcolor: "limegreen";
+  width: width - 80;
+  height: height;
+  borderradius: 10;
+  aligncontent: "center";
+}
